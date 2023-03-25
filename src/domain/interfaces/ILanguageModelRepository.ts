@@ -1,5 +1,5 @@
-import { MessageProcessedEntity } from "../entities";
+import { LanguageModelEntity } from "../entities";
 import { IBaseRepository } from "./IBaseRepository";
 
-export interface IMessageProcessedRepository
-  extends IBaseRepository<MessageProcessedEntity> {}
+export interface ILanguageModelRepository
+  extends IBaseRepository<LanguageModelEntity> {}

@@ -1,5 +1,10 @@
+import { ChatCompletition } from "../../entities";
+import { LanguageModelOperation } from "../../enums";
+
 export interface LanguageModelOutDTO {
   id: string;
   name: string;
-  descriptio: string;
+  description: string;
+  chatCompletition: ChatCompletition;
+  operation: LanguageModelOperation;
 }

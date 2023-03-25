@@ -1,3 +1,5 @@
+import { Message } from "../entities";
+
 export interface ITextProcessor {
-  sendToProcess(prompt: string): Promise<string>;
+  sendToProcess(messages: Message[]): Promise<string>;
 }
