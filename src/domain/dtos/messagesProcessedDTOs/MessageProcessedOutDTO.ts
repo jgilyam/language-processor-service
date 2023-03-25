@@ -1,9 +1,9 @@
-import { TopicEntity } from "../../entities";
 import { LanguageModelOutDTO } from "../languageModelDTOs/LanguageModelOutDTO";
+import { TopicOutDTO } from "../topicDTOs/";
 
 export interface MessageProcessedOutDTO {
   id: string;
-  topic: TopicEntity;
+  topic: TopicOutDTO;
   messageIn: string;
   messageOut: string;
   languageModel: LanguageModelOutDTO;

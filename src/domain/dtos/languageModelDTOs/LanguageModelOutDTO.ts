@@ -1,1 +1,4 @@
-export interface LanguageModelOutDTO {}
+export interface LanguageModelOutDTO {
+  name: string;
+  descriptio: string;
+}
