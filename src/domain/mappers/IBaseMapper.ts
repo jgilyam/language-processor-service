@@ -1,4 +1,4 @@
-export interface IBaseMapper<E, D> {
-  entityToDto(entity: E): D;
-  dtoToEntity(dto: D): E;
+export interface IBaseMapper<E, ID, OD> {
+  entityToOutDto(entity: E): OD;
+  inDtoToEntity(dto: ID): E;
 }
