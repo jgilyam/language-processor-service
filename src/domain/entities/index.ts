@@ -1,4 +1,4 @@
 export * from "./CampaignAxisEntity";
-export * from "./LanguagesModelsEntity";
-export * from "./MessagesProcessedEntity";
+export * from "./LanguageModelEntity";
+export * from "./MessageProcessedEntity";
 export * from "./TopicEntity";

@@ -1,5 +1,6 @@
-export interface LanguagesModelsEntity {
+export interface LanguageModelEntity {
   name: string;
   description: string;
   instruccion: string;
+  operation: string;
 }
