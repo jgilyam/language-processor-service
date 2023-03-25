@@ -3,17 +3,21 @@ import {
   MessageProcessedOutDTO,
   TopicOutDTO,
 } from "../../domain/dtos";
+import { Message } from "../../domain/entities";
+import { LanguageModelOperation } from "../../domain/enums";
 import {
   IMessageProcessedRepository,
   ITextProcessor,
 } from "../../domain/interfaces/";
+import { LanguageModelService } from "./LanguageModelService";
 import { TopicService } from "./TopicService";
 
 export class MessageProcessedSercice {
   constructor(
     private readonly messageProcessedRepository: IMessageProcessedRepository,
     private readonly textProcessor: ITextProcessor,
-    private readonly topicService: TopicService
+    private readonly topicService: TopicService,
+    private readonly languageModelService: LanguageModelService
   ) {}
   public async generateReposone(messageProcessedInDTO: MessageProcessedInDTO) {
     const topicOfMessage = await this.classifyMessagesAccordingToTopic(
@@ -23,11 +27,35 @@ export class MessageProcessedSercice {
 
   private async generatePromptForMessageClassifier(
     message: MessageProcessedInDTO
-  ): Promise<string> {
+  ): Promise<Message[]> {
     const topics = await this.topicService.findAllTopics();
-    const instruction = "";
+    const languageModel =
+      await this.languageModelService.findLanguageModelByOperation(
+        LanguageModelOperation.MessageClassifier
+      );
 
-    throw new Error("metodo no implementado");
+    let { messages } = languageModel.chatCompletition;
+    const systemMessageIndex = messages.findIndex((message) => {
+      message.role === "system";
+    });
+
+    let newSystemMessage = messages[systemMessageIndex];
+
+    const topicsString = topics
+      .map((topic) => {
+        topic.name;
+      })
+      .reduce((acc, topicString) => acc + topicString + ", ", " ");
+
+    newSystemMessage.content = newSystemMessage.content + topicsString;
+
+    messages[systemMessageIndex] = newSystemMessage;
+    messages.push({
+      role: "user",
+      content: message.messageIn,
+    });
+
+    return messages;
   }
 
   private async classifyMessagesAccordingToTopic(
