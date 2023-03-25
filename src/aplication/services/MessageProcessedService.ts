@@ -13,4 +13,12 @@ export class MessageProcessedSercice {
     private readonly textProcessor: ITextProcessor
   ) {}
   public async generateReposone(messageProcessedInDTO: MessageProcessedInDTO) {}
+
+  private async generatePrompt(): Promise<string> {
+    throw "metodo no implementado";
+  }
+  private async classifyMessagesAccordingToYopic(
+    message: string,
+    topics: string[]
+  ) {}
 }
