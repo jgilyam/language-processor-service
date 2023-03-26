@@ -1,7 +1,10 @@
-import { Router, Request, Response, NextFunction } from "express";
+import { Router } from "express";
+import context from "./containers/MessageProcessedContainer";
+
+const { messageProcessedController } = context;
 
 const router = Router();
 
-router.post("/", () => {});
+router.post("/", messageProcessedController.generateReposone);
 
 export default router;
