@@ -1,5 +1,5 @@
-import { TopicEntity } from "../../../domain/entities";
-import { ITopicRepository } from "../../../domain/interfaces";
+import { TopicEntity } from "../../../../domain/entities";
+import { ITopicRepository } from "../../../../domain/interfaces";
 
 export class TopicRepositoryMock implements ITopicRepository {
   save(entity: TopicEntity): Promise<TopicEntity> {

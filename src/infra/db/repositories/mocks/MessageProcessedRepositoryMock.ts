@@ -1,5 +1,5 @@
-import { MessageProcessedEntity } from "../../../domain/entities";
-import { IMessageProcessedRepository } from "../../../domain/interfaces";
+import { MessageProcessedEntity } from "../../../../domain/entities";
+import { IMessageProcessedRepository } from "../../../../domain/interfaces";
 
 export class MessageProcessedRepositoryMock implements IMessageProcessedRepository {
   save(entity: MessageProcessedEntity): Promise<MessageProcessedEntity> {

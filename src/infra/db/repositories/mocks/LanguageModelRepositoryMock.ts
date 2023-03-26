@@ -1,5 +1,5 @@
-import { LanguageModelEntity } from "../../../domain/entities";
-import { ILanguageModelRepository } from "../../../domain/interfaces";
+import { LanguageModelEntity } from "../../../../domain/entities";
+import { ILanguageModelRepository } from "../../../../domain/interfaces";
 
 export class LanguageModelRepositoryMock implements ILanguageModelRepository {
   save(entity: LanguageModelEntity): Promise<LanguageModelEntity> {

@@ -1,5 +1,5 @@
-import { CampaignAxisEntity } from "../../../domain/entities";
-import { ICampaingAxisRepository } from "../../../domain/interfaces";
+import { CampaignAxisEntity } from "../../../../domain/entities";
+import { ICampaingAxisRepository } from "../../../../domain/interfaces";
 
 export class CampaingAxisRepositoryMock implements ICampaingAxisRepository {
   async findCampaingAxisRepositoryByTopic(topicId: string): Promise<CampaignAxisEntity | null> {
