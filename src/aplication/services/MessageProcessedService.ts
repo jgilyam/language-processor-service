@@ -16,7 +16,7 @@ export class MessageProcessedSercice {
   ) {}
   public generateReposone = async (messageProcessedInDTO: MessageProcessedInDTO): Promise<MessageProcessedOutDTO> => {
     const topicOfMessage = await this.classifyMessagesAccordingToTopic(messageProcessedInDTO);
-    console.log({ topicOfMessage });
+    //console.log(JSON.stringify(topicOfMessage, undefined, 2));
     const messageProcessedOutDTO = await this.generateResponseAccordingToProposals(messageProcessedInDTO, topicOfMessage);
     return messageProcessedOutDTO;
   };
@@ -27,9 +27,7 @@ export class MessageProcessedSercice {
     const { messageIn } = messageProcessedInDTO;
     const languageModel = await this.languageModelService.findLanguageModelByOperation(LanguageModelOperation.ResponseGenerator);
     let { messages } = languageModel.chatCompletition;
-    const systemMessageIndex = messages.findIndex((message) => {
-      message.role === "system";
-    });
+    const systemMessageIndex = messages.findIndex((message) =>message.role === "system");
 
     let newSystemMessage = messages[systemMessageIndex];
 
@@ -53,26 +51,20 @@ export class MessageProcessedSercice {
       },
     };
     //const messageProcessedEntitySaved = await this.messageProcessedRepository.save(messageProcessedEntity);
-    console.log({ messageProcessedEntity });
+    
     return this.messageProcessedMapper.entityToOutDto(messageProcessedEntity);
   };
 
   private generatePromptForMessageClassifier = async (message: MessageProcessedInDTO): Promise<Message[]> => {
     const topics = await this.topicService.findAllTopics();
     const { chatCompletition } = await this.languageModelService.findLanguageModelByOperation(LanguageModelOperation.MessageClassifier);
-
     let { messages } = chatCompletition;
-    const systemMessageIndex = messages.findIndex((message) => {
-      message.role === "system";
-    });
+
+    const systemMessageIndex = messages.findIndex((message) => message.role === "system");
 
     let newSystemMessage = messages[systemMessageIndex];
 
-    const topicsString = topics
-      .map((topic) => {
-        topic.name;
-      })
-      .reduce((acc, topicString) => acc + topicString + ", ", " ");
+    const topicsString = topics.map((topic) => topic.name).reduce((acc, topicString) => acc + topicString + ", ", " ");
 
     newSystemMessage.content = newSystemMessage.content + topicsString;
 
@@ -82,6 +74,7 @@ export class MessageProcessedSercice {
       content: message.messageIn,
     });
 
+    
     return messages;
   };
 

@@ -7,7 +7,17 @@ export class LanguageModelMapper
     IBaseMapper<LanguageModelEntity, LanguageModelInDTO, LanguageModelOutDTO>
 {
   entityToOutDto(entity: LanguageModelEntity): LanguageModelOutDTO {
-    throw new Error("Method not implemented.");
+    const languageModelOutDTO: LanguageModelOutDTO = {
+      id: "",
+      name: entity.name,
+      description: entity.description,
+      chatCompletition: {
+        model: entity.chatCompletition.model,
+        messages: entity.chatCompletition.messages,
+      },
+      operation: entity.operation,
+    };
+    return languageModelOutDTO;
   }
   inDtoToEntity(dto: LanguageModelInDTO): LanguageModelEntity {
     throw new Error("Method not implemented.");

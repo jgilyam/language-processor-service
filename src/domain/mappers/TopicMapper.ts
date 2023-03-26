@@ -6,7 +6,11 @@ export class TopicMapper
   implements IBaseMapper<TopicEntity, TopicInDTO, TopicOutDTO>
 {
   entityToOutDto(entity: TopicEntity): TopicOutDTO {
-    throw new Error("Method not implemented.");
+    const topicOutDTO: TopicOutDTO = {
+      id: "",
+      name: entity.name,
+    };
+    return topicOutDTO;
   }
   inDtoToEntity(dto: TopicInDTO): TopicEntity {
     throw new Error("Method not implemented.");

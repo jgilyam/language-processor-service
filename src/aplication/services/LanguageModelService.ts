@@ -52,11 +52,7 @@ export class LanguageModelService {
           {
             role: "system",
             content:
-              "Eres el asistente de campaña de un candidato a gobernador de la Provicia de San Juan - Argentina. Eres respetuso, atento, educado y agredable. Debes responder mensajes en funcion de las siguientes propuetas usando menos de 40 palabras. Tienes que responder en potencial",
-          },
-          {
-            role: "user",
-            content: "En mi barrio hay muchos delitos, como piensan solucionar este problema?",
+              "Eres el asistente de campaña de un candidato a gobernador de la Provicia de San Juan - Argentina. Eres respetuso, atento, educado y agredable. Debes responder mensajes en funcion de las siguientes propuetas usando menos de 40 palabras. Tienes que responder en potencial. ",
           },
         ],
       },
