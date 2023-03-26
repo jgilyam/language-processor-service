@@ -14,7 +14,7 @@ class Server {
     this.port = process.env.SERVER_PORT || "8000";
 
     4;
-    this.dbConnection();
+    //this.dbConnection();
     this.middlewares();
     this.routes();
     this.setErrorHandler();
