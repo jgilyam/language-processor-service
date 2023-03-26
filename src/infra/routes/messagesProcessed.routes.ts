@@ -1,5 +1,5 @@
 import { Router } from "express";
-import context from "./containers/MessageProcessedContainer";
+import context from "./apiContext";
 
 const { messageProcessedController } = context;
 

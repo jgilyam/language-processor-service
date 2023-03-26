@@ -1,11 +1,8 @@
-import { CampaingAxisService, LanguageModelService, MessageProcessedSercice, TopicService } from "../../../aplication/services";
-import { LanguageModelMapper, MessageProcessedMapper, TopicMapper } from "../../../domain/mappers";
-import { TextProcessorOpenAI } from "../../clients/TextProcessorOpenAI";
-import { MessageProcessedControler } from "../../controllers/MessageProcessedControler";
-import { CampaingAxisRepositoryMock } from "../../db/repositories/CampaingAxisRepositoryMock";
-import { LanguageModelRepositoryMock } from "../../db/repositories/LanguageModelRepositoryMock";
-import { MessageProcessedRepositoryMock } from "../../db/repositories/MessageProcessedRepositoryMock";
-import { TopicRepositoryMock } from "../../db/repositories/TopicRepositoryMock";
+import { TopicService, LanguageModelService, CampaingAxisService, MessageProcessedSercice } from "../../aplication/services";
+import { LanguageModelMapper, TopicMapper, MessageProcessedMapper } from "../../domain/mappers";
+import { TextProcessorOpenAI } from "../clients/TextProcessorOpenAI";
+import { MessageProcessedControler } from "../controllers/MessageProcessedControler";
+import { MessageProcessedRepositoryMock, CampaingAxisRepositoryMock, LanguageModelRepositoryMock, TopicRepositoryMock } from "../db/repositories";
 
 //repositories
 const messageProcessedRepository = new MessageProcessedRepositoryMock();
