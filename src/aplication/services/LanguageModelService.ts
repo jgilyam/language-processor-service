@@ -9,7 +9,7 @@ export class LanguageModelService {
     throw new Error("metodo no implementado");
   }
 
-  public async findLanguageModelByOperation(operation?: LanguageModelOperation): Promise<LanguageModelOutDTO> {
+  public findLanguageModelByOperation = async (operation?: LanguageModelOperation): Promise<LanguageModelOutDTO> => {
     const languageModelOutDTOClasificador: LanguageModelOutDTO = {
       id: "1",
       name: "Clasificador",
@@ -64,5 +64,5 @@ export class LanguageModelService {
     };
     if (operation === LanguageModelOperation.ResponseGenerator) return languageModelOutDTOResponseGenerator;
     else return languageModelOutDTOClasificador;
-  }
+  };
 }

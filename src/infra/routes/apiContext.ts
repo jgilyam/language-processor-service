@@ -37,5 +37,4 @@ const messageProcessedController = new MessageProcessedControler(messageProcesse
 const context = {
   messageProcessedController,
 };
-
 export default context;

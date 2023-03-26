@@ -4,8 +4,7 @@ import { ITopicRepository } from "../../domain/interfaces/";
 export class TopicService {
   constructor(private readonly topicRepository: ITopicRepository) {}
 
-  public async findAllTopics(name?: string): Promise<TopicOutDTO[]> {
-    
+  public findAllTopics = async (name?: string): Promise<TopicOutDTO[]> => {
     const topicsOutDTO: TopicOutDTO[] = [
       {
         id: "1",
@@ -32,7 +31,6 @@ export class TopicService {
       return topicsOutDTO.filter((topic) => topic.name === name);
     } else {
       return topicsOutDTO;
-    } 
-      
-  }
+    }
+  };
 }

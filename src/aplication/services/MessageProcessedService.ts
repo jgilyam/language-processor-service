@@ -14,16 +14,16 @@ export class MessageProcessedSercice {
     private readonly campaignAxisService: CampaingAxisService,
     private readonly messageProcessedMapper: MessageProcessedMapper
   ) {}
-  public async generateReposone(messageProcessedInDTO: MessageProcessedInDTO): Promise<MessageProcessedOutDTO> {
+  public generateReposone = async (messageProcessedInDTO: MessageProcessedInDTO): Promise<MessageProcessedOutDTO> => {
     const topicOfMessage = await this.classifyMessagesAccordingToTopic(messageProcessedInDTO);
-    console.log(topicOfMessage);
+    console.log({ topicOfMessage });
     const messageProcessedOutDTO = await this.generateResponseAccordingToProposals(messageProcessedInDTO, topicOfMessage);
     return messageProcessedOutDTO;
-  }
-  private async generateResponseAccordingToProposals(
+  };
+  private generateResponseAccordingToProposals = async (
     messageProcessedInDTO: MessageProcessedInDTO,
     topicOfMessage: TopicOutDTO
-  ): Promise<MessageProcessedOutDTO> {
+  ): Promise<MessageProcessedOutDTO> => {
     const { messageIn } = messageProcessedInDTO;
     const languageModel = await this.languageModelService.findLanguageModelByOperation(LanguageModelOperation.ResponseGenerator);
     let { messages } = languageModel.chatCompletition;
@@ -52,11 +52,12 @@ export class MessageProcessedSercice {
         ...languageModel,
       },
     };
-    const messageProcessedEntitySaved = await this.messageProcessedRepository.save(messageProcessedEntity);
-    return this.messageProcessedMapper.entityToOutDto(messageProcessedEntitySaved);
-  }
+    //const messageProcessedEntitySaved = await this.messageProcessedRepository.save(messageProcessedEntity);
+    console.log({ messageProcessedEntity });
+    return this.messageProcessedMapper.entityToOutDto(messageProcessedEntity);
+  };
 
-  private async generatePromptForMessageClassifier(message: MessageProcessedInDTO): Promise<Message[]> {
+  private generatePromptForMessageClassifier = async (message: MessageProcessedInDTO): Promise<Message[]> => {
     const topics = await this.topicService.findAllTopics();
     const { chatCompletition } = await this.languageModelService.findLanguageModelByOperation(LanguageModelOperation.MessageClassifier);
 
@@ -82,12 +83,12 @@ export class MessageProcessedSercice {
     });
 
     return messages;
-  }
+  };
 
-  private async classifyMessagesAccordingToTopic(message: MessageProcessedInDTO): Promise<TopicOutDTO> {
+  private classifyMessagesAccordingToTopic = async (message: MessageProcessedInDTO): Promise<TopicOutDTO> => {
     const prompt = await this.generatePromptForMessageClassifier(message);
     const proccesedMessage = await this.textProcessor.sendToProcess(prompt);
     const topic = await this.topicService.findAllTopics(proccesedMessage);
     return topic[0];
-  }
+  };
 }
