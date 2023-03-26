@@ -1,27 +1,80 @@
+import { CampaingAxisService, LanguageModelService, TopicService } from ".";
 import {
   MessageProcessedInDTO,
   MessageProcessedOutDTO,
   TopicOutDTO,
 } from "../../domain/dtos";
-import { Message } from "../../domain/entities";
+import { Message, MessageProcessedEntity } from "../../domain/entities";
 import { LanguageModelOperation } from "../../domain/enums";
 import {
   IMessageProcessedRepository,
   ITextProcessor,
 } from "../../domain/interfaces/";
-import { LanguageModelService } from "./LanguageModelService";
-import { TopicService } from "./TopicService";
+import { MessageProcessedMapper } from "../../domain/mappers";
 
 export class MessageProcessedSercice {
   constructor(
     private readonly messageProcessedRepository: IMessageProcessedRepository,
     private readonly textProcessor: ITextProcessor,
     private readonly topicService: TopicService,
-    private readonly languageModelService: LanguageModelService
+    private readonly languageModelService: LanguageModelService,
+    private readonly campaignAxisService: CampaingAxisService,
+    private readonly messageProcessedMapper: MessageProcessedMapper
   ) {}
-  public async generateReposone(messageProcessedInDTO: MessageProcessedInDTO) {
+  public async generateReposone(
+    messageProcessedInDTO: MessageProcessedInDTO
+  ): Promise<MessageProcessedOutDTO> {
     const topicOfMessage = await this.classifyMessagesAccordingToTopic(
       messageProcessedInDTO
+    );
+    const messageProcessedOutDTO =
+      await this.generateResponseAccordingToProposals(
+        messageProcessedInDTO,
+        topicOfMessage
+      );
+    return messageProcessedOutDTO;
+  }
+  private async generateResponseAccordingToProposals(
+    messageProcessedInDTO: MessageProcessedInDTO,
+    topicOfMessage: TopicOutDTO
+  ): Promise<MessageProcessedOutDTO> {
+    const { messageIn } = messageProcessedInDTO;
+    const languageModel =
+      await this.languageModelService.findLanguageModelByOperation(
+        LanguageModelOperation.ResponseGenerator
+      );
+    let { messages } = languageModel.chatCompletition;
+    const systemMessageIndex = messages.findIndex((message) => {
+      message.role === "system";
+    });
+
+    let newSystemMessage = messages[systemMessageIndex];
+
+    const { proposal } = await this.campaignAxisService.findCampaingAxisByTopic(
+      topicOfMessage.name
+    );
+
+    newSystemMessage.content = newSystemMessage.content + proposal;
+
+    messages[systemMessageIndex] = newSystemMessage;
+
+    messages.push({
+      role: "user",
+      content: messageIn,
+    });
+    const proccesedMessage = await this.textProcessor.sendToProcess(messages);
+    const messageProcessedEntity: MessageProcessedEntity = {
+      topic: { name: topicOfMessage.name },
+      messageIn: messageIn,
+      messageOut: proccesedMessage,
+      languageModel: {
+        ...languageModel,
+      },
+    };
+    const messageProcessedEntitySaved =
+      await this.messageProcessedRepository.save(messageProcessedEntity);
+    return this.messageProcessedMapper.entityToOutDto(
+      messageProcessedEntitySaved
     );
   }
 
@@ -29,12 +82,12 @@ export class MessageProcessedSercice {
     message: MessageProcessedInDTO
   ): Promise<Message[]> {
     const topics = await this.topicService.findAllTopics();
-    const languageModel =
+    const { chatCompletition } =
       await this.languageModelService.findLanguageModelByOperation(
         LanguageModelOperation.MessageClassifier
       );
 
-    let { messages } = languageModel.chatCompletition;
+    let { messages } = chatCompletition;
     const systemMessageIndex = messages.findIndex((message) => {
       message.role === "system";
     });
