@@ -1,4 +1,5 @@
 import { LanguageModelOutDTO } from "../../domain/dtos";
+import { Message } from "../../domain/entities";
 import { LanguageModelOperation } from "../../domain/enums";
 import { ILanguageModelRepository } from "../../domain/interfaces";
 
@@ -60,5 +61,22 @@ export class LanguageModelService {
     };
     if (operation === LanguageModelOperation.ResponseGenerator) return languageModelOutDTOResponseGenerator;
     else return languageModelOutDTOClasificador;
+  };
+  public getSystemMessageByOperation = async (operation: LanguageModelOperation): Promise<Message> => {
+    const { chatCompletition } = await this.languageModelRepository.findLanguageModelByOperation(LanguageModelOperation.ResponseGenerator);
+    let { messages } = chatCompletition;
+    const systemMessageIndex = messages.findIndex((message) => message.role === "system");
+
+    return messages[systemMessageIndex];
+  };
+
+  public getMessagesAndAddCompletePrompt = async (intructionsAdded: string, languageModelOperation: LanguageModelOperation): Promise<Message[]> => {
+    const { chatCompletition } = await this.languageModelRepository.findLanguageModelByOperation(languageModelOperation);
+    let { messages } = chatCompletition;
+    const systemMessageIndex = messages.findIndex((message) => message.role === "system");
+    let newSystemMessage = messages[systemMessageIndex];
+    newSystemMessage.content = newSystemMessage.content + intructionsAdded;
+    messages[systemMessageIndex] = newSystemMessage;
+    return messages;
   };
 }

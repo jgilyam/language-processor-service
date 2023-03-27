@@ -2,7 +2,7 @@ import { IBaseMapper, TopicMapper } from ".";
 import { CampaingAxisInDTO, CampaingAxisOutDTO } from "../dtos";
 import { CampaignAxisEntity } from "../entities";
 
-export class CampaAxisMapper implements IBaseMapper<CampaignAxisEntity, CampaingAxisInDTO, CampaingAxisOutDTO> {
+export class CampaingAxisMapper implements IBaseMapper<CampaignAxisEntity, CampaingAxisInDTO, CampaingAxisOutDTO> {
   constructor(private readonly topicMapper: TopicMapper) {}
 
   entityToOutDto(entity: CampaignAxisEntity): CampaingAxisOutDTO {

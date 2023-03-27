@@ -25,31 +25,17 @@ export class MessageProcessedSercice {
     topicOfMessage: TopicOutDTO
   ): Promise<MessageProcessedOutDTO> => {
     const { messageIn } = messageProcessedInDTO;
-    const languageModel = await this.languageModelService.findLanguageModelByOperation(LanguageModelOperation.ResponseGenerator);
-    let { messages } = languageModel.chatCompletition;
-    const systemMessageIndex = messages.findIndex((message) =>message.role === "system");
-
-    let newSystemMessage = messages[systemMessageIndex];
-
     const { proposal } = await this.campaignAxisService.findCampaingAxisByTopic(topicOfMessage.id);
-
-    newSystemMessage.content = newSystemMessage.content + proposal;
-
-    messages[systemMessageIndex] = newSystemMessage;
+    //
+    let messages = await this.languageModelService.getMessagesAndAddCompletePrompt(proposal, LanguageModelOperation.ResponseGenerator)
 
     messages.push({
       role: "user",
       content: messageIn,
     });
     const proccesedMessage = await this.textProcessor.sendToProcess(messages);
-    const messageProcessedEntity: MessageProcessedEntity = {
-      topic: { name: topicOfMessage.name },
-      messageIn: messageIn,
-      messageOut: proccesedMessage,
-      languageModel: {
-        ...languageModel,
-      },
-    };
+    const messageProcessedEntity: MessageProcessedEntity = this.messageProcessedMapper.topicOutDTOAndMessageInMessageOutToMessageProcessedEntity(topicOfMessage,messageIn,proccesedMessage);
+  
     //const messageProcessedEntitySaved = await this.messageProcessedRepository.save(messageProcessedEntity);
     
     return this.messageProcessedMapper.entityToOutDto(messageProcessedEntity);
@@ -57,18 +43,9 @@ export class MessageProcessedSercice {
 
   private generatePromptForMessageClassifier = async (message: MessageProcessedInDTO): Promise<Message[]> => {
     const topics = await this.topicService.findAllTopics();
-    const { chatCompletition } = await this.languageModelService.findLanguageModelByOperation(LanguageModelOperation.MessageClassifier);
-    let { messages } = chatCompletition;
-
-    const systemMessageIndex = messages.findIndex((message) => message.role === "system");
-
-    let newSystemMessage = messages[systemMessageIndex];
-
     const topicsString = topics.map((topic) => topic.name).reduce((acc, topicString) => acc + topicString + ", ", " ");
-
-    newSystemMessage.content = newSystemMessage.content + topicsString;
-
-    messages[systemMessageIndex] = newSystemMessage;
+  
+    let messages = await this.languageModelService.getMessagesAndAddCompletePrompt(topicsString, LanguageModelOperation.MessageClassifier)
     messages.push({
       role: "user",
       content: message.messageIn,

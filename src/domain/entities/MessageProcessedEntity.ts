@@ -6,5 +6,5 @@ export interface MessageProcessedEntity {
   topic: TopicEntity;
   messageIn: string;
   messageOut: string;
-  languageModel: LanguageModelEntity;
+  //languageModel: LanguageModelEntity;
 }

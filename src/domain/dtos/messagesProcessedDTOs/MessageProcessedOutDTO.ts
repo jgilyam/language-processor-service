@@ -6,5 +6,4 @@ export interface MessageProcessedOutDTO {
   topic: TopicOutDTO;
   messageIn: string;
   messageOut: string;
-  languageModel: LanguageModelOutDTO;
 }
