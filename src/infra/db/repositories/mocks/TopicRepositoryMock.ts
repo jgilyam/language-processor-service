@@ -34,7 +34,7 @@ export class TopicRepositoryMock implements ITopicRepository {
   findAll(): Promise<TopicEntity[]> {
     throw new Error("Method not implemented.");
   }
-  findById(id: number): Promise<TopicEntity> {
+  findById(id: string): Promise<TopicEntity> {
     throw new Error("Method not implemented.");
   }
   deleteById(id: number): Promise<TopicEntity> {

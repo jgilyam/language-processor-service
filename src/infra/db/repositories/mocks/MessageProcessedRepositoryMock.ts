@@ -8,7 +8,7 @@ export class MessageProcessedRepositoryMock implements IMessageProcessedReposito
   findAll(): Promise<MessageProcessedEntity[]> {
     throw new Error("Method not implemented.");
   }
-  findById(id: number): Promise<MessageProcessedEntity> {
+  findById(id: string): Promise<MessageProcessedEntity> {
     throw new Error("Method not implemented.");
   }
   deleteById(id: number): Promise<MessageProcessedEntity> {

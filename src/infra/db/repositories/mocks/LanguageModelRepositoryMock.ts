@@ -12,7 +12,7 @@ export class LanguageModelRepositoryMock implements ILanguageModelRepository {
   findAll(): Promise<LanguageModelEntity[]> {
     throw new Error("Method not implemented.");
   }
-  findById(id: number): Promise<LanguageModelEntity> {
+  findById(id: string): Promise<LanguageModelEntity> {
     throw new Error("Method not implemented.");
   }
   deleteById(id: number): Promise<LanguageModelEntity> {
