@@ -14,6 +14,6 @@ export class CampaingAxisMapper implements IBaseMapper<CampaignAxisEntity, Campa
     return campaingAxisOutDTO;
   }
   inDtoToEntity(dto: CampaingAxisInDTO): CampaignAxisEntity {
-    throw new Error("Method not implemented.");
+    throw new Error("fuck");
   }
 }

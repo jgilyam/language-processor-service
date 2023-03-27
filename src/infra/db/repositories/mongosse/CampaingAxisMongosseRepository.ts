@@ -12,8 +12,8 @@ export class CampaingAxisMongosseRepository implements ICampaingAxisRepository {
     });
     return await campaignAxis.save();
   }
-  findAll(): Promise<CampaignAxisEntity[]> {
-    return CampaignAxis.find();
+  async findAll(): Promise<CampaignAxisEntity[]> {
+    return await CampaignAxis.find();
   }
   findById(id: number): Promise<CampaignAxisEntity> {
     throw new Error("Method not implemented.");
