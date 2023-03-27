@@ -1,36 +1,25 @@
-import { TopicOutDTO } from "../../domain/dtos";
+import { TopicInDTO, TopicOutDTO } from "../../domain/dtos";
+import { TopicEntity } from "../../domain/entities";
 import { ITopicRepository } from "../../domain/interfaces/";
+import { TopicMapper } from "../../domain/mappers";
 
 export class TopicService {
-  constructor(private readonly topicRepository: ITopicRepository) {}
+  constructor(private readonly topicRepository: ITopicRepository, private readonly topicMapper: TopicMapper) {}
 
-  public findAllTopics = async (name?: string): Promise<TopicOutDTO[]> => {
-    const topicsOutDTO: TopicOutDTO[] = [
-      {
-        id: "1",
-        name: "Seguridad",
-      },
-      {
-        id: "2",
-        name: "Salud",
-      },
-      {
-        id: "3",
-        name: "Infraestructura",
-      },
-      {
-        id: "4",
-        name: "Educación",
-      },
-      {
-        id: "5",
-        name: "Otros",
-      },
-    ];
-    if (name) {
-      return topicsOutDTO.filter((topic) => topic.name === name);
-    } else {
-      return topicsOutDTO;
-    }
+  public findAll = async (): Promise<TopicOutDTO[]> => {
+    const topicsEntities = await this.topicRepository.findAll();
+    return topicsEntities.map((entity) => this.topicMapper.entityToOutDto(entity));
+  };
+
+  public findByName = async (name: string): Promise<TopicOutDTO> => {
+    const topicsEntity = await this.topicRepository.findOneByName(name);
+    if (topicsEntity) return this.topicMapper.entityToOutDto(topicsEntity);
+    else return { id: "", name: "" };
+  };
+
+  public addCampaingAxis = async (topicInDTO: TopicInDTO): Promise<TopicOutDTO> => {
+    const topicEntity = this.topicMapper.inDtoToEntity(topicInDTO);
+    const topicEntitySaved = await this.topicRepository.save(topicEntity);
+    return this.topicMapper.entityToOutDto(topicEntitySaved);
   };
 }

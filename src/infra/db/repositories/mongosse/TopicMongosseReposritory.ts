@@ -3,8 +3,8 @@ import { ITopicRepository } from "../../../../domain/interfaces";
 import Topic from "./models/TopicSchema";
 
 export class TopicMongosseReposritory implements ITopicRepository {
-  findAllByName(name: string): Promise<TopicEntity> {
-    throw new Error("Method not implemented.");
+  async findOneByName(name: string): Promise<TopicEntity | null> {
+    return await Topic.findOne({ name: " " }).exec();
   }
   async save(entity: TopicEntity): Promise<TopicEntity> {
     const topic = new Topic({

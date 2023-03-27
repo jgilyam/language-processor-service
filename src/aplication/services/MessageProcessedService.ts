@@ -45,7 +45,7 @@ export class MessageProcessedSercice {
   };
 
   private generatePromptForMessageClassifier = async (message: MessageProcessedInDTO): Promise<Message[]> => {
-    const topics = await this.topicService.findAllTopics();
+    const topics = await this.topicService.findAll();
     const topicsString = topics.map((topic) => topic.name).reduce((acc, topicString) => acc + topicString + ", ", " ");
 
     let messages = await this.languageModelService.getMessagesAndAddCompletePrompt(topicsString, LanguageModelOperation.MessageClassifier);
@@ -60,7 +60,6 @@ export class MessageProcessedSercice {
   private classifyMessagesAccordingToTopic = async (message: MessageProcessedInDTO): Promise<TopicOutDTO> => {
     const prompt = await this.generatePromptForMessageClassifier(message);
     const proccesedMessage = await this.textProcessor.sendToProcess(prompt);
-    const topic = await this.topicService.findAllTopics(proccesedMessage);
-    return topic[0];
+    return await this.topicService.findByName(proccesedMessage);
   };
 }

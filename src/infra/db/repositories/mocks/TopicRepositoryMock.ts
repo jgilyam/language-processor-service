@@ -2,7 +2,7 @@ import { TopicEntity } from "../../../../domain/entities";
 import { ITopicRepository } from "../../../../domain/interfaces";
 
 export class TopicRepositoryMock implements ITopicRepository {
-  async findAllByName(name: string): Promise<TopicEntity> {
+  async findOneByName(name: string): Promise<TopicEntity> {
     const topicEntity: TopicEntity[] = [
       {
         _id: "1",
