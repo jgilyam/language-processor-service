@@ -1,8 +1,13 @@
 import { TopicService, LanguageModelService, CampaingAxisService, MessageProcessedSercice } from "../../aplication/services";
-import { LanguageModelMapper, TopicMapper, MessageProcessedMapper } from "../../domain/mappers";
+import { LanguageModelMapper, TopicMapper, MessageProcessedMapper, CampaingAxisMapper } from "../../domain/mappers";
 import { TextProcessorOpenAI } from "../clients/TextProcessorOpenAI";
 import { MessageProcessedControler } from "../controllers/MessageProcessedControler";
-import { MessageProcessedRepositoryMock, CampaingAxisRepositoryMock, LanguageModelRepositoryMock, TopicRepositoryMock } from "../db/repositories";
+import {
+  MessageProcessedRepositoryMock,
+  CampaingAxisRepositoryMock,
+  LanguageModelRepositoryMock,
+  TopicRepositoryMock,
+} from "../db/repositories/mocks";
 
 //repositories
 const messageProcessedRepository = new MessageProcessedRepositoryMock();
@@ -14,6 +19,7 @@ const topicRepositoryMock = new TopicRepositoryMock();
 const languageModelMapper = new LanguageModelMapper();
 const topicMapper = new TopicMapper();
 const messageProcessedMapper = new MessageProcessedMapper(topicMapper, languageModelMapper);
+const campaingAxisMapper = new CampaingAxisMapper(topicMapper);
 
 //clients
 const textProcessor = new TextProcessorOpenAI();
@@ -21,7 +27,7 @@ const textProcessor = new TextProcessorOpenAI();
 //servicios
 const topicService = new TopicService(topicRepositoryMock);
 const languageModelService = new LanguageModelService(languageModelRepositoryMock);
-const campaignAxisService = new CampaingAxisService(campaingAxisRepositoryMock);
+const campaignAxisService = new CampaingAxisService(campaingAxisRepositoryMock, campaingAxisMapper);
 const messageProcessedSercice = new MessageProcessedSercice(
   messageProcessedRepository,
   textProcessor,

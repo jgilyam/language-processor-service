@@ -24,34 +24,36 @@ export class MessageProcessedSercice {
     messageProcessedInDTO: MessageProcessedInDTO,
     topicOfMessage: TopicOutDTO
   ): Promise<MessageProcessedOutDTO> => {
-    const { messageIn } = messageProcessedInDTO;
     const { proposal } = await this.campaignAxisService.findCampaingAxisByTopic(topicOfMessage.id);
-    //
-    let messages = await this.languageModelService.getMessagesAndAddCompletePrompt(proposal, LanguageModelOperation.ResponseGenerator)
+    let messages = await this.languageModelService.getMessagesAndAddCompletePrompt(proposal, LanguageModelOperation.ResponseGenerator);
 
+    const { messageIn } = messageProcessedInDTO;
     messages.push({
       role: "user",
       content: messageIn,
     });
     const proccesedMessage = await this.textProcessor.sendToProcess(messages);
-    const messageProcessedEntity: MessageProcessedEntity = this.messageProcessedMapper.topicOutDTOAndMessageInMessageOutToMessageProcessedEntity(topicOfMessage,messageIn,proccesedMessage);
-  
+    const messageProcessedEntity: MessageProcessedEntity = this.messageProcessedMapper.topicOutDTOAndMessageInMessageOutToMessageProcessedEntity(
+      topicOfMessage,
+      messageIn,
+      proccesedMessage
+    );
+
     //const messageProcessedEntitySaved = await this.messageProcessedRepository.save(messageProcessedEntity);
-    
+
     return this.messageProcessedMapper.entityToOutDto(messageProcessedEntity);
   };
 
   private generatePromptForMessageClassifier = async (message: MessageProcessedInDTO): Promise<Message[]> => {
     const topics = await this.topicService.findAllTopics();
     const topicsString = topics.map((topic) => topic.name).reduce((acc, topicString) => acc + topicString + ", ", " ");
-  
-    let messages = await this.languageModelService.getMessagesAndAddCompletePrompt(topicsString, LanguageModelOperation.MessageClassifier)
+
+    let messages = await this.languageModelService.getMessagesAndAddCompletePrompt(topicsString, LanguageModelOperation.MessageClassifier);
     messages.push({
       role: "user",
       content: message.messageIn,
     });
 
-    
     return messages;
   };
 

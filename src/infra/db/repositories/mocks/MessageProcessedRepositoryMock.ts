@@ -5,13 +5,13 @@ export class MessageProcessedRepositoryMock implements IMessageProcessedReposito
   save(entity: MessageProcessedEntity): Promise<MessageProcessedEntity> {
     throw new Error("Method not implemented.");
   }
-  findAll(): Promise<MessageProcessedEntity[] | null> {
+  findAll(): Promise<MessageProcessedEntity[]> {
     throw new Error("Method not implemented.");
   }
-  findById(id: number): Promise<MessageProcessedEntity | null> {
+  findById(id: number): Promise<MessageProcessedEntity> {
     throw new Error("Method not implemented.");
   }
-  deleteById(id: number): Promise<MessageProcessedEntity | null> {
+  deleteById(id: number): Promise<MessageProcessedEntity> {
     throw new Error("Method not implemented.");
   }
 }

@@ -12,13 +12,13 @@ export class CampaingAxisMongosseRepository implements ICampaingAxisRepository {
     });
     return await campaignAxis.save();
   }
-  findAll(): Promise<CampaignAxisEntity[] | null> {
+  findAll(): Promise<CampaignAxisEntity[]> {
     return CampaignAxis.find();
   }
-  findById(id: number): Promise<CampaignAxisEntity | null> {
+  findById(id: number): Promise<CampaignAxisEntity> {
     throw new Error("Method not implemented.");
   }
-  deleteById(id: number): Promise<CampaignAxisEntity | null> {
+  deleteById(id: number): Promise<CampaignAxisEntity> {
     throw new Error("Method not implemented.");
   }
 }
