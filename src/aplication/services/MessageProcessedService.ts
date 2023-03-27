@@ -31,7 +31,7 @@ export class MessageProcessedSercice {
 
     let newSystemMessage = messages[systemMessageIndex];
 
-    const { proposal } = await this.campaignAxisService.findCampaingAxisByTopic(topicOfMessage.name);
+    const { proposal } = await this.campaignAxisService.findCampaingAxisByTopic(topicOfMessage.id);
 
     newSystemMessage.content = newSystemMessage.content + proposal;
 
