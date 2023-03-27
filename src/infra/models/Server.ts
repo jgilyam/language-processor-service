@@ -1,8 +1,10 @@
 import express, { Application } from "express";
 import messagesProcessedRoutes from "../routes/messagesProcessed.routes";
+import topicsRoutes from "../routes/topic.routes";
+import campaingAxis from "../routes/campaingAxis.routes";
 import cors from "cors";
 import { db } from "../db/connection";
-import { apiPaths } from "../routes/apiPaths";
+import apiPaths from "../routes/apiPaths";
 
 class Server {
   private app: Application;
@@ -13,7 +15,6 @@ class Server {
     this.app = express();
     this.port = process.env.SERVER_PORT || "8000";
 
-    
     this.dbConnection();
     this.middlewares();
     this.routes();
@@ -39,6 +40,8 @@ class Server {
 
   routes() {
     this.app.use(this.apiPaths.messagesProcessed, messagesProcessedRoutes);
+    this.app.use(this.apiPaths.campaingAxis, campaingAxis);
+    this.app.use(this.apiPaths.topics, topicsRoutes);
     console.log("configured routes");
   }
 

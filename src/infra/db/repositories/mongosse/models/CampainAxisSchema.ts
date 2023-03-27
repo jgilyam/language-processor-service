@@ -2,7 +2,7 @@ import { Schema, model, connect } from "mongoose";
 import { CampaignAxisEntity } from "../../../../../domain/entities";
 
 const campaignAxisSchema = new Schema<CampaignAxisEntity>({
-  topic: { type: String, required: true },
+  topic: { type: Schema.Types.ObjectId, ref: "Topic", required: true },
   proposal: { type: String, required: true },
 });
 

@@ -7,12 +7,16 @@ export class TopicMapper
 {
   entityToOutDto(entity: TopicEntity): TopicOutDTO {
     const topicOutDTO: TopicOutDTO = {
-      id: entity._id,
+      id: entity._id as string,
       name: entity.name,
     };
     return topicOutDTO;
   }
   inDtoToEntity(dto: TopicInDTO): TopicEntity {
-    throw new Error("Method not implemented.");
+    const topicEntity: TopicEntity = {
+      
+      name: dto.name,
+    };
+    return topicEntity;
   }
 }

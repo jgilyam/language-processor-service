@@ -1,4 +1,4 @@
 export interface CampaingAxisInDTO {
-  topicId: number;
+  topicId: string;
   proposal: string;
 }
