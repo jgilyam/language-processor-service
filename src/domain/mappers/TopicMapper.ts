@@ -7,7 +7,7 @@ export class TopicMapper
 {
   entityToOutDto(entity: TopicEntity): TopicOutDTO {
     const topicOutDTO: TopicOutDTO = {
-      id: entity._id as string,
+      id: entity.id as string,
       name: entity.name,
     };
     return topicOutDTO;

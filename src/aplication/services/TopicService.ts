@@ -22,4 +22,10 @@ export class TopicService {
     const topicEntitySaved = await this.topicRepository.save(topicEntity);
     return this.topicMapper.entityToOutDto(topicEntitySaved);
   };
+
+  public findById = async (topicId: string): Promise<TopicOutDTO> => {
+    const topicsEntity = await this.topicRepository.findById(topicId);
+    if (topicsEntity) return this.topicMapper.entityToOutDto(topicsEntity);
+    else return { id: "", name: "" };
+  };
 }

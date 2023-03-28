@@ -15,8 +15,8 @@ export class TopicMongosseReposritory implements ITopicRepository {
   async findAll(): Promise<TopicEntity[]> {
     return await Topic.find();
   }
-  findById(id: number): Promise<TopicEntity> {
-    throw new Error("Method not implemented.");
+  async findById(id: string): Promise<TopicEntity> {
+    return (await Topic.findById(id).exec()) as TopicEntity;
   }
   deleteById(id: number): Promise<TopicEntity> {
     throw new Error("Method not implemented.");

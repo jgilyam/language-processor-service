@@ -1,7 +1,7 @@
 import { LanguageModelOperation } from "../enums";
 
 export interface LanguageModelEntity {
-  _id: string;
+  id: string;
   name: string;
   description: string;
   chatCompletition: ChatCompletition;

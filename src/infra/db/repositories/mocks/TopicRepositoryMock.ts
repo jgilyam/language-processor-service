@@ -5,23 +5,23 @@ export class TopicRepositoryMock implements ITopicRepository {
   async findOneByName(name: string): Promise<TopicEntity> {
     const topicEntity: TopicEntity[] = [
       {
-        _id: "1",
+        id: "1",
         name: "Seguridad",
       },
       {
-        _id: "2",
+        id: "2",
         name: "Salud",
       },
       {
-        _id: "3",
+        id: "3",
         name: "Infraestructura",
       },
       {
-        _id: "4",
+        id: "4",
         name: "Educación",
       },
       {
-        _id: "5",
+        id: "5",
         name: "Otros",
       },
     ];

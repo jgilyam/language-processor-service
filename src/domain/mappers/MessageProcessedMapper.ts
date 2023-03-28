@@ -19,9 +19,9 @@ export class MessageProcessedMapper implements IBaseMapper<MessageProcessedEntit
   }
   topicOutDTOAndMessageInMessageOutToMessageProcessedEntity(topicOutDTO: TopicOutDTO, messageIn: string, messageOut: string): MessageProcessedEntity {
     const messageProcessedEntity: MessageProcessedEntity = {
-      _id: "",
+      id: "",
       topic: {
-        _id: topicOutDTO.id,
+        id: topicOutDTO.id,
         name: topicOutDTO.name,
       },
       messageIn,

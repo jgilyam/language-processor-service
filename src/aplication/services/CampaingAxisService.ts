@@ -1,9 +1,14 @@
 import { CampaingAxisInDTO, CampaingAxisOutDTO } from "../../domain/dtos";
 import { ICampaingAxisRepository } from "../../domain/interfaces";
 import { CampaingAxisMapper, TopicMapper } from "../../domain/mappers";
+import { TopicService } from "./TopicService";
 
 export class CampaingAxisService {
-  constructor(private readonly campaingAxisRepository: ICampaingAxisRepository, private readonly campaintAxisMapper: CampaingAxisMapper) {}
+  constructor(
+    private readonly campaingAxisRepository: ICampaingAxisRepository,
+    private readonly campaintAxisMapper: CampaingAxisMapper,
+    private readonly topicService: TopicService
+  ) {}
 
   public findCampaingAxisByTopic = async (topicId: string): Promise<CampaingAxisOutDTO> => {
     const campaingAxisEntity = await this.campaingAxisRepository.findCampaingAxisRepositoryByTopic(topicId);
@@ -11,7 +16,9 @@ export class CampaingAxisService {
     return this.campaintAxisMapper.entityToOutDto(campaingAxisEntity);
   };
   public addCampaingAxis = async (campaingAxisInDTO: CampaingAxisInDTO): Promise<CampaingAxisOutDTO> => {
-    const campaingAxisEntity = this.campaintAxisMapper.inDtoToEntity(campaingAxisInDTO);
+    const { topicId } = campaingAxisInDTO;
+    const topicOutDTO = await this.topicService.findById(topicId);
+    const campaingAxisEntity = this.campaintAxisMapper.campaingAxisInDTOAndTopicOutDTO(campaingAxisInDTO, topicOutDTO);
     const campaingAxisEntitySaved = await this.campaingAxisRepository.save(campaingAxisEntity);
     return this.campaintAxisMapper.entityToOutDto(campaingAxisEntitySaved);
   };

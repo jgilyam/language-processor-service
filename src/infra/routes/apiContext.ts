@@ -34,7 +34,7 @@ const textProcessor = new TextProcessorOpenAI();
 //servicios
 const topicService = new TopicService(topicMongosseReposritory, topicMapper);
 const languageModelService = new LanguageModelService(languageModelRepositoryMock);
-const campaignAxisService = new CampaingAxisService(campaingAxisMongosseRepository, campaingAxisMapper);
+const campaignAxisService = new CampaingAxisService(campaingAxisMongosseRepository, campaingAxisMapper, topicService);
 const messageProcessedSercice = new MessageProcessedSercice(
   messageProcessedRepository,
   textProcessor,
