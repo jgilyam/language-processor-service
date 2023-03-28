@@ -2,6 +2,8 @@ import express, { Application } from "express";
 import messagesProcessedRoutes from "../routes/messagesProcessed.routes";
 import topicsRoutes from "../routes/topic.routes";
 import campaingAxis from "../routes/campaingAxis.routes";
+import languageModel from "../routes/languageModel.routes";
+
 import cors from "cors";
 import { db } from "../db/connection";
 import apiPaths from "../routes/apiPaths";
@@ -42,6 +44,7 @@ class Server {
     this.app.use(this.apiPaths.messagesProcessed, messagesProcessedRoutes);
     this.app.use(this.apiPaths.campaingAxis, campaingAxis);
     this.app.use(this.apiPaths.topics, topicsRoutes);
+    this.app.use(this.apiPaths.languageModel, languageModel);
     console.log("configured routes");
   }
 

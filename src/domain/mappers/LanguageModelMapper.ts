@@ -20,6 +20,16 @@ export class LanguageModelMapper
     return languageModelOutDTO;
   }
   inDtoToEntity(dto: LanguageModelInDTO): LanguageModelEntity {
-    throw new Error("Method not implemented.");
+    const languageModelEntity: LanguageModelEntity = {
+      id: "",
+      name: dto.name,
+      description: dto.description,
+      chatCompletition: {
+        model: dto.chatCompletition.model,
+        messages: dto.chatCompletition.messages,
+      },
+      operation: dto.operation,
+    };
+    return languageModelEntity;
   }
 }

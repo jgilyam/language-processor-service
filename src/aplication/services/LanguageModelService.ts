@@ -1,10 +1,11 @@
-import { LanguageModelOutDTO } from "../../domain/dtos";
+import { LanguageModelInDTO, LanguageModelOutDTO } from "../../domain/dtos";
 import { Message } from "../../domain/entities";
 import { LanguageModelOperation } from "../../domain/enums";
 import { ILanguageModelRepository } from "../../domain/interfaces";
+import { LanguageModelMapper } from "../../domain/mappers";
 
 export class LanguageModelService {
-  constructor(private readonly languageModelRepository: ILanguageModelRepository) {}
+  constructor(private readonly languageModelRepository: ILanguageModelRepository, private readonly languageModelMapper: LanguageModelMapper) {}
 
   public async findAllLanguageModels(operation?: LanguageModelOperation): Promise<LanguageModelOutDTO[]> {
     throw new Error("metodo no implementado");
@@ -78,5 +79,10 @@ export class LanguageModelService {
     newSystemMessage.content = newSystemMessage.content + intructionsAdded;
     messages[systemMessageIndex] = newSystemMessage;
     return messages;
+  };
+  public addLanguageModel = async (languageModelInDTO: LanguageModelInDTO): Promise<LanguageModelOutDTO> => {
+    const topicEntity = this.languageModelMapper.inDtoToEntity(languageModelInDTO);
+    const topicEntitySaved = await this.languageModelRepository.save(topicEntity);
+    return this.languageModelMapper.entityToOutDto(topicEntitySaved);
   };
 }

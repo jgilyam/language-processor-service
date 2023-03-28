@@ -2,6 +2,7 @@ import { TopicService, LanguageModelService, CampaingAxisService, MessageProcess
 import { LanguageModelMapper, TopicMapper, MessageProcessedMapper, CampaingAxisMapper } from "../../domain/mappers";
 import { TextProcessorOpenAI } from "../clients/TextProcessorOpenAI";
 import { CampaignAxisController } from "../controllers/CapaingAxisController";
+import { LanguageModelController } from "../controllers/LanguageModelController";
 import { MessageProcessedControler } from "../controllers/MessageProcessedControler";
 import { TopicController } from "../controllers/TopicController";
 import {
@@ -11,6 +12,7 @@ import {
   TopicRepositoryMock,
 } from "../db/repositories/mocks";
 import { CampaingAxisMongosseRepository } from "../db/repositories/mongosse";
+import { LanguageModelMongosseRespository } from "../db/repositories/mongosse/LanguageModelMongosseRespository";
 import { TopicMongosseReposritory } from "../db/repositories/mongosse/TopicMongosseReposritory";
 
 //Mock repositories
@@ -21,6 +23,7 @@ const topicRepositoryMock = new TopicRepositoryMock();
 //Mongosse repositories
 const campaingAxisMongosseRepository = new CampaingAxisMongosseRepository();
 const topicMongosseReposritory = new TopicMongosseReposritory();
+const languageModelMongosseRespository = new LanguageModelMongosseRespository();
 
 //mappers
 const languageModelMapper = new LanguageModelMapper();
@@ -33,7 +36,7 @@ const textProcessor = new TextProcessorOpenAI();
 
 //servicios
 const topicService = new TopicService(topicMongosseReposritory, topicMapper);
-const languageModelService = new LanguageModelService(languageModelRepositoryMock);
+const languageModelService = new LanguageModelService(languageModelMongosseRespository, languageModelMapper);
 const campaignAxisService = new CampaingAxisService(campaingAxisMongosseRepository, campaingAxisMapper, topicService);
 const messageProcessedSercice = new MessageProcessedSercice(
   messageProcessedRepository,
@@ -48,9 +51,11 @@ const messageProcessedSercice = new MessageProcessedSercice(
 const messageProcessedController = new MessageProcessedControler(messageProcessedSercice);
 const campaignAxisController = new CampaignAxisController(campaignAxisService);
 const topicController = new TopicController(topicService);
+const laguageModelController = new LanguageModelController(languageModelService);
 const context = {
   messageProcessedController,
   campaignAxisController,
   topicController,
+  laguageModelController,
 };
 export default context;

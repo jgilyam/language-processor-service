@@ -16,7 +16,6 @@ export class MessageProcessedSercice {
   ) {}
   public generateReposone = async (messageProcessedInDTO: MessageProcessedInDTO): Promise<MessageProcessedOutDTO> => {
     const topicOfMessage = await this.classifyMessagesAccordingToTopic(messageProcessedInDTO);
-    //console.log(JSON.stringify(topicOfMessage, undefined, 2));
     const messageProcessedOutDTO = await this.generateResponseAccordingToProposals(messageProcessedInDTO, topicOfMessage);
     return messageProcessedOutDTO;
   };
