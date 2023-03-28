@@ -4,8 +4,8 @@ import { ILanguageModelRepository } from "../../../../domain/interfaces";
 import LanguageModel from "./models/LanguageModelSchema";
 
 export class LanguageModelMongosseRespository implements ILanguageModelRepository {
-  findLanguageModelByOperation(ResponseGenerator: LanguageModelOperation): Promise<LanguageModelEntity> {
-    throw new Error("Method not implemented.");
+  async findLanguageModelByOperation(languageModelOperation: LanguageModelOperation): Promise<LanguageModelEntity | null> {
+    return await LanguageModel.findOne({ operation: languageModelOperation }).exec();
   }
   async save(entity: LanguageModelEntity): Promise<LanguageModelEntity> {
     const languageModel = new LanguageModel({

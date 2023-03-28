@@ -12,8 +12,8 @@ export class CampaingAxisService {
 
   public findCampaingAxisByTopic = async (topicId: string): Promise<CampaingAxisOutDTO> => {
     const campaingAxisEntity = await this.campaingAxisRepository.findCampaingAxisRepositoryByTopic(topicId);
-
-    return this.campaintAxisMapper.entityToOutDto(campaingAxisEntity);
+    if (campaingAxisEntity) return this.campaintAxisMapper.entityToOutDto(campaingAxisEntity);
+    else return { id: " ", topic: { id: " ", name: " " }, proposal: " " };
   };
   public addCampaingAxis = async (campaingAxisInDTO: CampaingAxisInDTO): Promise<CampaingAxisOutDTO> => {
     const { topicId } = campaingAxisInDTO;

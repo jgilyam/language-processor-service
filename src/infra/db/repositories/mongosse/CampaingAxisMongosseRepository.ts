@@ -4,8 +4,10 @@ import { ICampaingAxisRepository } from "../../../../domain/interfaces";
 import CampaignAxis from "./models/CampainAxisSchema";
 
 export class CampaingAxisMongosseRepository implements ICampaingAxisRepository {
-  findCampaingAxisRepositoryByTopic(topicId: string): Promise<CampaignAxisEntity> {
-    throw new Error("Method not implemented.");
+  async findCampaingAxisRepositoryByTopic(topicId: string): Promise<CampaignAxisEntity | null> {
+    return await CampaignAxis.findOne({
+      topic: topicId,
+    }).exec();
   }
   async save(entity: CampaignAxisEntity): Promise<CampaignAxisEntity> {
     const campaignAxis = new CampaignAxis({

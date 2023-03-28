@@ -66,7 +66,10 @@ export class LanguageModelService {
     else return languageModelOutDTOClasificador;
   };
   public getSystemMessageByOperation = async (operation: LanguageModelOperation): Promise<Message> => {
-    const { chatCompletition } = await this.languageModelRepository.findLanguageModelByOperation(LanguageModelOperation.ResponseGenerator);
+    const languageModel = await this.languageModelRepository.findLanguageModelByOperation(LanguageModelOperation.ResponseGenerator);
+    if(!languageModel) throw new Error("languageModel no existe")
+
+    const { chatCompletition } = languageModel
     let { messages } = chatCompletition;
     const systemMessageIndex = messages.findIndex((message) => message.role === "system");
 
@@ -74,7 +77,10 @@ export class LanguageModelService {
   };
 
   public getMessagesAndAddCompletePrompt = async (intructionsAdded: string, languageModelOperation: LanguageModelOperation): Promise<Message[]> => {
-    const { chatCompletition } = await this.languageModelRepository.findLanguageModelByOperation(languageModelOperation);
+    const languageModel = await this.languageModelRepository.findLanguageModelByOperation(languageModelOperation);
+    if(!languageModel) throw new Error("languageModel no existe")
+    
+    const { chatCompletition } = languageModel
     let { messages } = chatCompletition;
     const systemMessageIndex = messages.findIndex((message) => message.role === "system");
     let newSystemMessage = messages[systemMessageIndex];

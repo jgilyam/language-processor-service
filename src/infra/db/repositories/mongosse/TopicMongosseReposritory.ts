@@ -4,7 +4,7 @@ import Topic from "./models/TopicSchema";
 
 export class TopicMongosseReposritory implements ITopicRepository {
   async findOneByName(name: string): Promise<TopicEntity | null> {
-    return await Topic.findOne({ name: " " }).exec();
+    return await Topic.findOne({ name: name }).exec();
   }
   async save(entity: TopicEntity): Promise<TopicEntity> {
     const topic = new Topic({

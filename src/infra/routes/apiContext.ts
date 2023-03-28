@@ -1,5 +1,6 @@
 import { TopicService, LanguageModelService, CampaingAxisService, MessageProcessedSercice } from "../../aplication/services";
 import { LanguageModelMapper, TopicMapper, MessageProcessedMapper, CampaingAxisMapper } from "../../domain/mappers";
+import { TextProcessorMock } from "../clients/TextProcessorMock";
 import { TextProcessorOpenAI } from "../clients/TextProcessorOpenAI";
 import { CampaignAxisController } from "../controllers/CapaingAxisController";
 import { LanguageModelController } from "../controllers/LanguageModelController";
@@ -33,6 +34,8 @@ const campaingAxisMapper = new CampaingAxisMapper(topicMapper);
 
 //clients
 const textProcessor = new TextProcessorOpenAI();
+//mockClient
+const textProcessorMock = new TextProcessorMock();
 
 //servicios
 const topicService = new TopicService(topicMongosseReposritory, topicMapper);
@@ -40,7 +43,7 @@ const languageModelService = new LanguageModelService(languageModelMongosseRespo
 const campaignAxisService = new CampaingAxisService(campaingAxisMongosseRepository, campaingAxisMapper, topicService);
 const messageProcessedSercice = new MessageProcessedSercice(
   messageProcessedRepository,
-  textProcessor,
+  textProcessorMock,
   topicService,
   languageModelService,
   campaignAxisService,

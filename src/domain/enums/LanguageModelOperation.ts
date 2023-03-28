@@ -1,4 +1,4 @@
 export enum LanguageModelOperation {
   MessageClassifier = "messageClassifier",
-  ResponseGenerator = "responseGenerato",
+  ResponseGenerator = "responseGenerator",
 }
