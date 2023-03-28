@@ -8,17 +8,14 @@ export class CampaingAxisMongosseRepository implements ICampaingAxisRepository {
     throw new Error("Method not implemented.");
   }
   async save(entity: CampaignAxisEntity): Promise<CampaignAxisEntity> {
-    console.log(entity);
-
-    console.log(JSON.stringify(entity.topic.id, undefined, 2));
     const campaignAxis = new CampaignAxis({
-      topic: "6421305184388f12095fa584",
+      topic: entity.topic.id,
       proposal: entity.proposal,
     });
-    return await await campaignAxis.save();
+    return await (await campaignAxis.save()).populate("topic");
   }
   async findAll(): Promise<CampaignAxisEntity[]> {
-    return await CampaignAxis.find();
+    return await CampaignAxis.find().populate("topic");
   }
   findById(id: string): Promise<CampaignAxisEntity> {
     throw new Error("Method not implemented.");
