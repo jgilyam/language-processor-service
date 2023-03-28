@@ -13,8 +13,8 @@ export class LanguageModelMongosseRespository implements ILanguageModelRepositor
     });
     return await languageModel.save();
   }
-  findAll(): Promise<LanguageModelEntity[]> {
-    throw new Error("Method not implemented.");
+  async findAll(): Promise<LanguageModelEntity[]> {
+    return await LanguageModel.find();
   }
   findById(id: string): Promise<LanguageModelEntity> {
     throw new Error("Method not implemented.");

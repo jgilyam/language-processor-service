@@ -8,7 +8,9 @@ export class LanguageModelService {
   constructor(private readonly languageModelRepository: ILanguageModelRepository, private readonly languageModelMapper: LanguageModelMapper) {}
 
   public async findAllLanguageModels(operation?: LanguageModelOperation): Promise<LanguageModelOutDTO[]> {
-    throw new Error("metodo no implementado");
+    const languageModelEntities = await this.languageModelRepository.findAll();
+    return languageModelEntities.map((entity) => this.languageModelMapper.entityToOutDto(entity));
+    
   }
 
   public findLanguageModelByOperation = async (operation?: LanguageModelOperation): Promise<LanguageModelOutDTO> => {
