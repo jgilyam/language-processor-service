@@ -3,7 +3,7 @@ import { ITextProcessor } from "../../domain/interfaces";
 
 export class TextProcessorMock implements ITextProcessor {
   sendToProcess = async (messages: Message[]): Promise<string> => {
-    const responseMessage = "Seguridad";
+    const responseMessage = "Otros";
 
     console.log(JSON.stringify(messages, undefined, 2));
     console.log("-------");
