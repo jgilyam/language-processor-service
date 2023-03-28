@@ -43,7 +43,7 @@ const languageModelService = new LanguageModelService(languageModelMongosseRespo
 const campaignAxisService = new CampaingAxisService(campaingAxisMongosseRepository, campaingAxisMapper, topicService);
 const messageProcessedSercice = new MessageProcessedSercice(
   messageProcessedRepository,
-  textProcessorMock,
+  textProcessor,
   topicService,
   languageModelService,
   campaignAxisService,
