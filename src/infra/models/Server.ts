@@ -47,6 +47,7 @@ class Server {
     this.app.use(this.apiPaths.campaingAxis, campaingAxis);
     this.app.use(this.apiPaths.topics, topicsRoutes);
     this.app.use(this.apiPaths.languageModel, languageModel);
+    this.app.use("/", (req, res) => res.send("root"));
     console.log("configured routes");
   }
 
