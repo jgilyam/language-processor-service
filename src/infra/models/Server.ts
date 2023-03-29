@@ -8,6 +8,8 @@ import cors from "cors";
 import { db } from "../db/connection";
 import apiPaths from "../routes/apiPaths";
 
+require("dotenv").config();
+
 class Server {
   private app: Application;
   private port: string;
