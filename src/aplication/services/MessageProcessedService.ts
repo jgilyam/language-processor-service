@@ -6,6 +6,7 @@ import { IMessageProcessedRepository, ITextProcessor } from "../../domain/interf
 import { MessageProcessedMapper } from "../../domain/mappers";
 
 export class MessageProcessedSercice {
+  selector: number;
   constructor(
     private readonly messageProcessedRepository: IMessageProcessedRepository,
     private readonly textProcessor: ITextProcessor,
@@ -13,10 +14,16 @@ export class MessageProcessedSercice {
     private readonly languageModelService: LanguageModelService,
     private readonly campaignAxisService: CampaingAxisService,
     private readonly messageProcessedMapper: MessageProcessedMapper
-  ) {}
+  ) {
+    this.selector = 0;
+  }
   public generateReposone = async (messageProcessedInDTO: MessageProcessedInDTO): Promise<MessageProcessedOutDTO> => {
     const topicOfMessage = await this.classifyMessagesAccordingToTopic(messageProcessedInDTO);
-    const messageProcessedOutDTO = await this.generateResponseAccordingToProposals(messageProcessedInDTO, topicOfMessage);
+
+    const messageProcessedOutDTO =
+      topicOfMessage.name === "Otros"
+        ? this.generateGenericResponse(messageProcessedInDTO, topicOfMessage)
+        : await this.generateResponseAccordingToProposals(messageProcessedInDTO, topicOfMessage);
     return messageProcessedOutDTO;
   };
   private generateResponseAccordingToProposals = async (
@@ -61,4 +68,24 @@ export class MessageProcessedSercice {
     const proccesedMessage = await this.textProcessor.sendToProcess(prompt);
     return await this.topicService.findByName(proccesedMessage);
   };
+
+  private generateGenericResponse = (messageProcessedInDTO: MessageProcessedInDTO, topicOfMessage: TopicOutDTO): MessageProcessedOutDTO => {
+    const genericResponses = [
+      "Ok, te pedimos que nos des tiempo para darte una respuesta. En el transcurso del día te vamos a responder",
+      "No sabemos ahora la respuesta. Le vamos a consultar al flaco, y en el transcurso del día te escribimos",
+      "Gracias por consultarnos sobre este tema. Queremos responderte con certeza. En las próximas horas te escribimos.",
+    ];
+
+    const messageProcessedOutDTO: MessageProcessedOutDTO = {
+      id: "",
+      topic: topicOfMessage,
+      messageIn: messageProcessedInDTO.messageIn,
+      messageOut: genericResponses[this.selector],
+    };
+    this.selector++;
+    if (this.selector === genericResponses.length) this.selector = 0;
+    return messageProcessedOutDTO;
+  };
 }
+
+
