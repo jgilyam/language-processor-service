@@ -7,6 +7,7 @@ import languageModel from "../routes/languageModel.routes";
 import cors from "cors";
 import { db } from "../db/connection";
 import apiPaths from "../routes/apiPaths";
+import { auth } from "../middlewares/auth";
 
 require("dotenv").config();
 
@@ -39,6 +40,7 @@ class Server {
     this.app.use(cors());
     this.app.use(express.json());
     this.app.use(express.static("public"));
+    this.app.use(auth);
     console.log("configured middelewares");
   }
 

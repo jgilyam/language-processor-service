@@ -14,10 +14,10 @@ export class TopicService {
   public findByName = async (name: string): Promise<TopicOutDTO> => {
     const topicsEntity = await this.topicRepository.findOneByName(name);
     if (topicsEntity) return this.topicMapper.entityToOutDto(topicsEntity);
-    else return { id: "642131868cce978fb5b13345", name: "Otros" };
+    else return (await this.topicRepository.findOneByName("Otros")) as TopicOutDTO;
   };
 
-  public addCampaingAxis = async (topicInDTO: TopicInDTO): Promise<TopicOutDTO> => {
+  public addTopic = async (topicInDTO: TopicInDTO): Promise<TopicOutDTO> => {
     const topicEntity = this.topicMapper.inDtoToEntity(topicInDTO);
     const topicEntitySaved = await this.topicRepository.save(topicEntity);
     return this.topicMapper.entityToOutDto(topicEntitySaved);

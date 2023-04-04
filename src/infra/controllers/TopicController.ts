@@ -10,7 +10,7 @@ export class TopicController {
 
   public add = async (req: Request, res: Response) => {
     const { body: topicInDTO } = req;
-    const topic = await this.topicService.addCampaingAxis(topicInDTO);
+    const topic = await this.topicService.addTopic(topicInDTO);
     res.status(200).send(topic);
   };
 }
